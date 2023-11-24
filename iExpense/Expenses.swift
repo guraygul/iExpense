@@ -8,7 +8,8 @@
 import Foundation
 //import Observation
 
-@Observable class Expenses {
+@Observable 
+class Expenses {
     var items = [ExpenseItem]() {
         didSet {
             if let encoded = try? JSONEncoder().encode(items) {

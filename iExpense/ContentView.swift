@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    var expenses = Expenses()
+    @State private var expenses = Expenses()
     @State private var showingAddExpense = false
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             List {
-                ForEach(expenses.items, id: \.id) { item in
+                ForEach(expenses.items) { item in
                     HStack {
                         VStack(alignment: .leading) {
                             Text(item.name)
@@ -24,7 +24,7 @@ struct ContentView: View {
                         
                         Spacer()
                                                 
-                        Text(item.amount, format: .currency(code: item.currency))
+                        Text(item.amount, format: .currency(code: "USD"))
                        
                     }
                 }
@@ -32,10 +32,8 @@ struct ContentView: View {
             }
             .navigationTitle("iExpense")
             .toolbar {
-                Button {
+                Button("Add Expense", systemImage: "plus") {
                     showingAddExpense = true
-                } label: {
-                    Image(systemName: "plus")
                 }
             }
             .sheet(isPresented: $showingAddExpense) {
@@ -43,6 +41,7 @@ struct ContentView: View {
             }
         }
     }
+    
     func removeItems(at offsets: IndexSet) {
         expenses.items.remove(atOffsets: offsets)
     }
