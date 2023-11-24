@@ -8,11 +8,34 @@
 import SwiftUI
 
 struct ExpenseSection: View {
+    let title: String
+    let expenses: [ExpenseItem]
+    let deleteItems: (IndexSet) -> Void
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Section(title) {
+            ForEach(expenses) { item in
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(item.name)
+                            .font(.headline)
+                        Text(item.type)
+                    }
+                    
+                    Spacer()
+                    
+                    Text(item.amount, format: .currency(code: item.currency))
+                        .style(for: item)
+                    
+                }
+            }
+            .onDelete(perform: deleteItems)
+        }
     }
 }
 
 #Preview {
-    ExpenseSection()
+    ExpenseSection(title: "Personal", expenses: []) { _ in
+        
+    }
 }
